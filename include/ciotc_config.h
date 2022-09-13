@@ -21,8 +21,8 @@ const char* password = "D3v310p3rs2019";
 // Cloud iot details.
 const char* project_id = "ibex-iot";
 const char* location = "us-central1";
-const char* registry_id = "prueba_esp32mini";
-const char* device_id = "ESP32mini";
+const char* registry_id = "VPN_esp32mini";
+const char* device_id = "Esp32";
 
 // Configuration for NTP
 const char* ntp_primary = "time.google.com";
@@ -37,9 +37,9 @@ const char* ntp_secondary = "pool.ntp.org";
 // it's smaller add "00:" to the start. If it's too big or too small something
 // is probably wrong with your key.
 const char* private_key =
-   "f3:46:18:c4:36:7c:64:83:e4:1e:86:7f:2c:20:61:"
-    "83:5f:79:3b:3e:b8:c4:bd:f5:d2:e1:d2:0d:13:72:"
-    "9c:20";
+   "d8:1a:61:20:15:f1:37:cf:1f:39:17:c6:da:1e:82:"
+   "52:61:28:21:e5:87:54:10:77:fa:48:73:11:d6:34:"
+   "9b:fc";
 
 // Time (seconds) to expire token += 20 minutes for drift
 const int jwt_exp_secs = 36000; // Maximum 24H (3600*24)
@@ -60,7 +60,7 @@ const char* primary_ca = "-----BEGIN CERTIFICATE-----\n"
 
     
 const char* backup_ca = "-----BEGIN CERTIFICATE-----\n"
-        "MIIB4TCCAYegAwIBAgIRKjikHJYKBN5CsiilC+g0mAIwCgYIKoZIzj0EAwIwUDEk\n"
+       "MIIB4TCCAYegAwIBAgIRKjikHJYKBN5CsiilC+g0mAIwCgYIKoZIzj0EAwIwUDEk\n"
         "MCIGA1UECxMbR2xvYmFsU2lnbiBFQ0MgUm9vdCBDQSAtIFI0MRMwEQYDVQQKEwpH\n"
         "bG9iYWxTaWduMRMwEQYDVQQDEwpHbG9iYWxTaWduMB4XDTEyMTExMzAwMDAwMFoX\n"
         "DTM4MDExOTAzMTQwN1owUDEkMCIGA1UECxMbR2xvYmFsU2lnbiBFQ0MgUm9vdCBD\n"

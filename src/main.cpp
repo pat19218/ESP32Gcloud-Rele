@@ -19,7 +19,7 @@
 #include <ciotc_config.h>  // Update this file with your configuration
 #include <ArduinoJson.hpp>
 #include <ArduinoJson.h>
- 
+#define rele1 19          //pin del primer rele
 //----------------------MQTT. Config---------------------------------------------
 
 // !!REPLACEME!!
@@ -46,10 +46,12 @@ void messageReceived(String &topic, String &payload){
     Serial.println(id);
   
   if(id < 54){
-    
-    Serial.println("ID esperado\n");
+    digitalWrite(rele1, 0);
+    delay(1500);
+    digitalWrite(rele1, 1);
+    Serial.println("Reinicio router\n");
   }else{
-    Serial.println("ID desconocido\n");
+    Serial.println("Todo trabaja bien\n");
   }
   
   
@@ -142,7 +144,8 @@ void setup(){
   Serial.begin(115200);
   setupCloudIoT();
   timer = millis();
-
+  pinMode(rele1, OUTPUT);
+  digitalWrite(rele1, 1);
 }
 
 void loop(){
@@ -159,7 +162,7 @@ void loop(){
   if (millis() - last_Telemetry_Millis > telemetry_publish_interval) {
     last_Telemetry_Millis = millis();
     Serial.println(F("sending Telemetry data"));
-    String Telemetry = ("la señal de wifi es:"+ getDefaultSensor());
+    String Telemetry = ("señal ESP_VPN:"+ getDefaultSensor());
     publishTelemetry(Telemetry);
     refresh++;
   }
