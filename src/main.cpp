@@ -17,113 +17,8 @@
 #include <CloudIoTCore.h>
 #include <CloudIoTCoreMqtt.h>
 #include <ciotc_config.h>  // Update this file with your configuration
-#include <Adafruit_NeoPixel.h>
 #include <ArduinoJson.hpp>
 #include <ArduinoJson.h>
-//--------------------------------NeoPixel Config.-----------------------------
-
-#ifdef __AVR__
-#include <avr/power.h> // Required for 16 MHz Adafruit Trinket
-#endif
-
-#define PIN       19  // pin del pwm 23 esp32 --> 4-->esp8266
-#define NUMPIXELS 60  // cantidad de Neopixeles
-#define retardo 2     //delay de secuencia visual
-
-Adafruit_NeoPixel pixels(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
-
-byte led_W = 0;
-byte degradacion = 0;
-byte intensidad = 10;
-
-
-
-//---------------------------------------------rutina de flaseo blanco-------------------------------------------
-void flasheo() {
-  led_W = 0;
-  pixels.setBrightness(100);
-  for (byte pos = 0; pos < NUMPIXELS; pos++) {
-
-    pixels.setPixelColor(led_W, pixels.Color(150, 150, 150)); // Blanco
-
-    pixels.show();   // Send the updated pixel colors to the hardware.
-    led_W++;
-    
-  }
-  for (byte pos = 0; pos < NUMPIXELS; pos += 4) {
-    pixels.setPixelColor(pos, pixels.Color(150, 150, 0));//amarillo
-    pixels.show();
-  }
-
-}
-
-//---------------------------------------------rutina de flaseo de colores degradados-----------------------------
-void flasheo_color(byte R, byte G, byte B, byte cuanto) {
-
-  led_W = 0;
-  pixels.setBrightness(100);//controlo el porcentaje de intensidad luminica
-  for (byte pos = 0; pos < NUMPIXELS; pos++) {
-
-    pixels.setPixelColor(led_W, pixels.Color(R, G, B)); //amarillo --> Blanco
-
-    pixels.show();   // Send the updated pixel colors to the hardware.
-    led_W++;
-  }
-  delay(cuanto);
-  for (byte pos = (NUMPIXELS - 1); pos > 0; pos--) {
-    pixels.setPixelColor(led_W, pixels.Color(0, 0, 0));
-
-    pixels.show();
-    led_W--;
-  }
-  delay(cuanto);
-}
-
-void rutina1_trueno(){
-  flasheo_color(10, 0, 255, 5); //morado
-  //----------------------------------------------vaiven--------------------------------------------------------
-  intensidad = 10;
-  led_W = 0;
-
-  for (byte pos = 0; pos < NUMPIXELS; pos++) {
-    pixels.setBrightness(intensidad);//controlo el porcentaje de intensidad luminica
-    pixels.setPixelColor(led_W, pixels.Color(150, 150, 150)); //amarillo --> Blanco
-    pixels.show();   // Send the updated pixel colors to the hardware.
-    led_W++;
-    intensidad += (100 / NUMPIXELS);
-    delay(retardo);
-  }
-  for (byte pos = 0; pos < NUMPIXELS; pos += 4) {
-    pixels.setPixelColor(pos, pixels.Color(150, 150, 0));
-    pixels.show();
-  }
-
-  for (byte pos = (NUMPIXELS - 1); pos > 0; pos--) {
-    pixels.setBrightness(intensidad);
-    pixels.setPixelColor(led_W, pixels.Color(0, 0, 0));
-
-    pixels.show();
-    led_W--;
-    intensidad -= (100 / NUMPIXELS);
-    delay(retardo);
-  }
-  pixels.setPixelColor(0, pixels.Color(0, 0, 0));
-  pixels.setPixelColor(1, pixels.Color(0, 0, 0));
-  pixels.show();
-  delay(500);
-
-  flasheo();
-  flasheo_color(0, 0, 160, 2);//azul
-  flasheo();
-  flasheo_color(255, 0, 255, 2); //morado
-  flasheo_color(160, 160, 160, 10);//blanco
-  flasheo_color(230, 230, 250, 2); //morado
-  flasheo_color(160, 160, 160, 10);
-  flasheo_color(0, 0, 160, 2);//azul
-  flasheo();
-  flasheo_color(30, 30, 160, 3);//azul
-  flasheo_color(0, 0, 0, 3);//azul
-}
  
 //----------------------MQTT. Config---------------------------------------------
 
@@ -133,7 +28,7 @@ void rutina1_trueno(){
 
 void messageReceived(String &topic, String &payload){
   Serial.println("incoming: " + topic + " - " + payload);
-  //-----------------------------------aqui ira el trueno------------------------------------------------------------
+  //-----------------------------------Reinicio rele-----------------------------------------------------
   
   //-creo un Json para decodificar los datos de recepción
     StaticJsonDocument<300> doc;
@@ -151,7 +46,7 @@ void messageReceived(String &topic, String &payload){
     Serial.println(id);
   
   if(id < 54){
-    rutina1_trueno();
+    
     Serial.println("ID esperado\n");
   }else{
     Serial.println("ID desconocido\n");
@@ -239,6 +134,7 @@ void setupCloudIoT(){
 unsigned long timer;
 unsigned long last_Telemetry_Millis = 0;
 unsigned long telemetry_publish_interval = 30000;
+byte refresh=0;
 
 
 void setup(){
@@ -246,15 +142,6 @@ void setup(){
   Serial.begin(115200);
   setupCloudIoT();
   timer = millis();
-
-  
-  #if defined(__AVR_ATtiny85__) && (F_CPU == 16000000)
-    clock_prescale_set(clock_div_1);
-  #endif
-
-  pixels.begin(); // INITIALIZE NeoPixel strip object (REQUIRED)
-  delay(10);
-  pixels.clear(); // inicio apagado
 
 }
 
@@ -274,5 +161,14 @@ void loop(){
     Serial.println(F("sending Telemetry data"));
     String Telemetry = ("la señal de wifi es:"+ getDefaultSensor());
     publishTelemetry(Telemetry);
+    refresh++;
   }
+
+  if ( (refresh-2) == 0) { //Para cada 10 mins --> refresh-20
+    refresh = 0;
+    Serial.println(F("Envieando dato de esp conectado "));
+    String Telemetry = ("Dispositivo en conexion ESP_VPN");
+    publishTelemetry(Telemetry);
+  }
+  
 }
