@@ -15,14 +15,14 @@
 // This file contains your configuration used to connect to Cloud IoT Core
 
 // WIFI
-const char* ssid = "Developers";
-const char* password = "D3v310p3rs2019";
+const char* ssid = "<name_wifi>";
+const char* password = "<PSWRD_wifi>";
 
 // Cloud iot details.
-const char* project_id = "ibex-iot";
-const char* location = "us-central1";
-const char* registry_id = "VPN_esp32mini";
-const char* device_id = "Esp32";
+const char* project_id = "<project_id>";
+const char* location = "<Region>";
+const char* registry_id = "<registry_id>";
+const char* device_id = "<device_id>";
 
 // Configuration for NTP
 const char* ntp_primary = "time.google.com";
@@ -37,9 +37,9 @@ const char* ntp_secondary = "pool.ntp.org";
 // it's smaller add "00:" to the start. If it's too big or too small something
 // is probably wrong with your key.
 const char* private_key =
-   "d8:1a:61:20:15:f1:37:cf:1f:39:17:c6:da:1e:82:"
-   "52:61:28:21:e5:87:54:10:77:fa:48:73:11:d6:34:"
-   "9b:fc";
+   "d8:1a:33:20:15:f1:37:cf:1f:39:22:c6:da:1e:82:"
+   "52:a4:28:21:e5:87:54:10:77:fa:ff:73:78:d6:34:"
+   "9b:e6";
 
 // Time (seconds) to expire token += 20 minutes for drift
 const int jwt_exp_secs = 36000; // Maximum 24H (3600*24)
@@ -48,29 +48,28 @@ const int jwt_exp_secs = 36000; // Maximum 24H (3600*24)
 const char* primary_ca = "-----BEGIN CERTIFICATE-----\n"
         "MIIBxTCCAWugAwIBAgINAfD3nVndblD3QnNxUDAKBggqhkjOPQQDAjBEMQswCQYD\n"
         "VQQGEwJVUzEiMCAGA1UEChMZR29vZ2xlIFRydXN0IFNlcnZpY2VzIExMQzERMA8G\n"
-        "A1UEAxMIR1RTIExUU1IwHhcNMTgxMTAxMDAwMDQyWhcNNDIxMTAxMDAwMDQyWjBE\n"
+        "A1UEANOT-CERTIFICATExMTNOT-CERTIFICATENOT-CERTIFICATEDAwMDQyWjBE\n"
         "MQswCQYDVQQGEwJVUzEiMCAGA1UEChMZR29vZ2xlIFRydXN0IFNlcnZpY2VzIExM\n"
         "QzERMA8GA1UEAxMIR1RTIExUU1IwWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAATN\n"
-        "8YyO2u+yCQoZdwAkUNv5c3dokfULfrA6QJgFV2XMuENtQZIG5HUOS6jFn8f0ySlV\n"
+        "8YyO2u+yCNOT-CERTIFICATEkfULfrA6QJgFV2XMuENtQZIG5HUOS6jFn8f0ySlV\n"
         "eORCxqFyjDJyRn86d+Iko0IwQDAOBgNVHQ8BAf8EBAMCAYYwDwYDVR0TAQH/BAUw\n"
         "AwEB/zAdBgNVHQ4EFgQUPv7/zFLrvzQ+PfNA0OQlsV+4u1IwCgYIKoZIzj0EAwID\n"
-        "SAAwRQIhAPKuf/VtBHqGw3TUwUIq7TfaExp3bH7bjCBmVXJupT9FAiBr0SmCtsuk\n"
+        "SAAwRQIhAPKuf/VtBHqGw3TUwUIq7TfaEx85DBA34pBmVXJupT9FAiBr0SmCtsuk\n"
         "miGgpajjf/gFigGM34F9021bCWs1MbL0SA==\n"
         "-----END CERTIFICATE-----\n";
 
     
 const char* backup_ca = "-----BEGIN CERTIFICATE-----\n"
-       "MIIB4TCCAYegAwIBAgIRKjikHJYKBN5CsiilC+g0mAIwCgYIKoZIzj0EAwIwUDEk\n"
-        "MCIGA1UECxMbR2xvYmFsU2lnbiBFQ0MgUm9vdCBDQSAtIFI0MRMwEQYDVQQKEwpH\n"
-        "bG9iYWxTaWduMRMwEQYDVQQDEwpHbG9iYWxTaWduMB4XDTEyMTExMzAwMDAwMFoX\n"
-        "DTM4MDExOTAzMTQwN1owUDEkMCIGA1UECxMbR2xvYmFsU2lnbiBFQ0MgUm9vdCBD\n"
-        "QSAtIFI0MRMwEQYDVQQKEwpHbG9iYWxTaWduMRMwEQYDVQQDEwpHbG9iYWxTaWdu\n"
-        "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEuMZ5049sJQ6fLjkZHAOkrprlOQcJ\n"
-        "FspjsbmG+IpXwVfOQvpzofdlQv8ewQCybnMO/8ch5RikqtlxP6jUuc6MHaNCMEAw\n"
-        "DgYDVR0PAQH/BAQDAgEGMA8GA1UdEwEB/wQFMAMBAf8wHQYDVR0OBBYEFFSwe61F\n"
-        "uOJAf/sKbvu+M8k8o4TVMAoGCCqGSM49BAMCA0gAMEUCIQDckqGgE6bPA7DmxCGX\n"
-        "kPoUVy0D7O48027KqGx2vKLeuwIgJ6iFJzWbVsaj8kfSt24bAgAXqmemFZHe+pTs\n"
-        "ewv4n4Q=\n"
+        "MIIBxTCCAWugAwIBAgINAfD3nVndblD3QnNxUDAKBggqhkjOPQQDAjBEMQswCQYD\n"
+        "VQQGEwJVUzEiMCAGA1UEChMZR29vZ2xlIFRydXN0IFNlcnZpY2VzIExMQzERMA8G\n"
+        "A1UEANOT-CERTIFICATExMTNOT-CERTIFICATENOT-CERTIFICATEDAwMDQyWjBE\n"
+        "MQswCQYDVQQGEwJVUzEiMCAGA1UEChMZR29vZ2xlIFRydXN0IFNlcnZpY2VzIExM\n"
+        "QzERMA8GA1UEAxMIR1RTIExUU1IwWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAATN\n"
+        "8YyO2u+yCNOT-CERTIFICATEkfULfrA6QJgFV2XMuENtQZIG5HUOS6jFn8f0ySlV\n"
+        "eORCxqFyjDJyRn86d+Iko0IwQDAOBgNVHQ8BAf8EBAMCAYYwDwYDVR0TAQH/BAUw\n"
+        "AwEB/zAdBgNVHQ4EFgQUPv7/zFLrvzQ+PfNA0OQlsV+4u1IwCgYIKoZIzj0EAwID\n"
+        "SAAwRQIhAPKuf/VtBHqGw3TUwUIq7TfaEx85DBA34pBmVXJupT9FAiBr0SmCtsuk\n"
+        "miGgpajjf/gFigGM34F9021bCWs1MbL0SA==\n"
         "-----END CERTIFICATE-----\n";
 
 // In case we ever need extra topics
